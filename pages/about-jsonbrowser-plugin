@@ -1,0 +1,37 @@
+{
+  "title": "About JsonBrowser Plugin",
+  "story": [
+  {
+    "type": "paragraph",
+    "id": "7fc8f08a30187a90",
+    "text": "Here we describe the purpose of the plugin and include a sample."
+  },
+  {
+    "type": "jsonbrowser",
+    "id": "7068b09b7f0b41f6",
+    "text": "This is text in the new plugin. You can *double-click* to edit it too."
+  }
+],
+  "journal": [
+  {
+    "type": "create",
+    "item": {
+      "title": "About JsonBrowser Plugin",
+      "story": [
+  {
+    "type": "paragraph",
+    "id": "7fc8f08a30187a90",
+    "text": "Here we describe the purpose of the plugin and include a sample."
+  },
+  {
+    "type": "jsonbrowser",
+    "id": "7068b09b7f0b41f6",
+    "text": "This is text in the new plugin. You can *double-click* to edit it too."
+  }
+]
+    },
+    "date": 1541184679000,
+    "certificate": "from mkplugin.sh"
+  }
+]
+}
