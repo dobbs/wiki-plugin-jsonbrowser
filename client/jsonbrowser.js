@@ -47,17 +47,13 @@
     let obj = parse(item)
 
     $item.append(`
-      <p style="background-color:#eee;padding:15px;">
+      <p style="background-color:#eee;padding:15px;margin-bottom:0;">
         ${expand(item.text)}
-      </p>`)
+      </p>
+      <pre style="background-color:#eee;margin-top: 0;padding:0 15px; overflow: auto;"></pre>`)
 
-    const appendJson = _.once((json) => {
-      $item.find('p').css({'margin-bottom': 0})
-      $item.append(`
-            <pre style="background-color:#eee;margin-top: 0;padding:0 15px; overflow: scroll;">
-${expand(JSON.stringify(json, null, 2))}
-            </pre>`)
-    })
+    const insertJson = _.once(json => $item.find('pre')
+                              .html(expand(JSON.stringify(json, null, 2))))
 
     if (!obj.selectFn)
       obj.selectFn = xs => xs
@@ -90,7 +86,7 @@ ${expand(JSON.stringify(json, null, 2))}
         }
       }
 
-      el.jsonsource().then(json => appendJson(obj.selectFn(json)))
+      el.jsonsource().then(json => insertJson(obj.selectFn(json)))
     }
 
     return $item
