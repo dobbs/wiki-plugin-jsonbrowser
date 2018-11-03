@@ -5,43 +5,30 @@
   const parse = (item) => {
     let obj = {}
     item.text.split("\n").forEach(line => {
-      console.log('parse line:', line)
       const [keyword, ...rest] = line.split(/\s+/)
       switch(keyword) {
       case 'SOURCE':
-        console.log('  SOURCE', rest)
         obj.source = rest[0]
         break
       case 'FILTER':
-        console.log('  FILTER', rest)
         const [key, comparison, value] = rest
         if (! obj.filters)
           obj.filters = []
         obj.filters.push(obj => {
-          // ignoring comparison for now
+          // all comparisons are treated as equals for now
           return obj[key] === value
         })
         break
       }
-    });
+    })
     return obj
   }
 
-  const loadJsonFrom = async (url) => {
-    console.log(`loading ${url}`)
-    const res = await fetch(url)
-    const json = await res.json()
-    console.log(`  loaded ${url}`)
-    return json
-  }
+  const loadJson = async url => (await (await fetch(url)).json())
 
-  const $candidates = $item => $(`.item:lt(${$('.item').index($item)})`)
-  const $jsonsources = $item => $candidates($item).filter('.jsonsource')
-  const filter = async (el, $item) => {
-    const filters = $item.get(0).filters()
-    const json = await el.json()
-    return json.splice(0,50).filter(it => filters.every(fn => fn(it)))
-  }
+  const $jsonsources = $item =>
+        $(`.item:lt(${$('.item').index($item)})`)
+        .filter('.jsonsource')
 
   expand = text => {
     return text
@@ -65,7 +52,7 @@
       el.jsonsource = async () => {
         if (obj.json)
           return obj.json
-        obj.json = await loadJsonFrom(obj.source)
+        obj.json = await loadJson(obj.source)
         $item.trigger('loaded')
         return obj.json
       }
