@@ -19,6 +19,13 @@
           return obj[key] === value
         })
         break
+      case 'SELECT':
+        const keys = rest
+        obj.selectFn = items => {
+          console.log('select', keys, items.length)
+          return items.map(_.partial(_.pick, _, ...keys))
+        }
+        break
       }
     })
     return obj
@@ -47,6 +54,14 @@
         ${expand(item.text)}
       </p>`)
 
+    const appendJson = _.once((json) => {
+      $item.find('p').css({'margin-bottom': 0})
+      $item.append(`
+            <pre style="background-color:#eee;margin-top: 0;padding:0 15px; overflow: scroll;">
+${expand(JSON.stringify(json, null, 2))}
+            </pre>`)
+    })
+
     if (obj.source) {
       $item.addClass('jsonsource')
       el.jsonsource = async () => {
@@ -63,14 +78,6 @@
     if (obj.filters) {
       $item.addClass('jsonfilter')
 
-      const appendJson = _.once((json) => {
-        $item.find('p').css({'margin-bottom': 0})
-        $item.append(`
-            <pre style="background-color:#eee;margin-top: 0;padding:0 15px; overflow: scroll;">
-${expand(JSON.stringify(json, null, 2))}
-            </pre>`)
-      })
-
       el.jsonfilters = () => obj.filters
       el.jsonsource = async () => {
         const sourceEl = $jsonsources($item).get(0)
@@ -82,10 +89,14 @@ ${expand(JSON.stringify(json, null, 2))}
           return []
         }
       }
-      $jsonsources($item)
-        .on('loaded', async () => appendJson(await el.jsonsource()))
 
     }
+
+    if (!obj.selectFn)
+      obj.selectFn = xs => xs
+
+    $jsonsources($item)
+      .on('loaded', async () => appendJson(obj.selectFn(await el.jsonsource())))
 
     return $item
   };
