@@ -21,10 +21,7 @@
         break
       case 'SELECT':
         const keys = rest
-        obj.selectFn = items => {
-          console.log('select', keys, items.length)
-          return items.map(_.partial(_.pick, _, ...keys))
-        }
+        obj.selectFn = items => items.map(_.partial(_.pick, _, ...keys))
         break
       }
     })
@@ -62,6 +59,9 @@ ${expand(JSON.stringify(json, null, 2))}
             </pre>`)
     })
 
+    if (!obj.selectFn)
+      obj.selectFn = xs => xs
+
     if (obj.source) {
       $item.addClass('jsonsource')
       el.jsonsource = async () => {
@@ -71,7 +71,7 @@ ${expand(JSON.stringify(json, null, 2))}
         $item.trigger('loaded')
         return obj.json
       }
-      setTimeout(el.jsonsource, 500)
+      el.jsonsource() // start loading
       return $item
     }
 
@@ -90,13 +90,8 @@ ${expand(JSON.stringify(json, null, 2))}
         }
       }
 
+      el.jsonsource().then(json => appendJson(obj.selectFn(json)))
     }
-
-    if (!obj.selectFn)
-      obj.selectFn = xs => xs
-
-    $jsonsources($item)
-      .on('loaded', async () => appendJson(obj.selectFn(await el.jsonsource())))
 
     return $item
   };
