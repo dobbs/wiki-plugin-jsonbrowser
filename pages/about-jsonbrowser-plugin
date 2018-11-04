@@ -1,37 +1,411 @@
 {
   "title": "About JsonBrowser Plugin",
   "story": [
-  {
-    "type": "paragraph",
-    "id": "7fc8f08a30187a90",
-    "text": "Here we describe the purpose of the plugin and include a sample."
-  },
-  {
-    "type": "jsonbrowser",
-    "id": "7068b09b7f0b41f6",
-    "text": "This is text in the new plugin. You can *double-click* to edit it too."
-  }
-],
-  "journal": [
-  {
-    "type": "create",
-    "item": {
-      "title": "About JsonBrowser Plugin",
-      "story": [
-  {
-    "type": "paragraph",
-    "id": "7fc8f08a30187a90",
-    "text": "Here we describe the purpose of the plugin and include a sample."
-  },
-  {
-    "type": "jsonbrowser",
-    "id": "7068b09b7f0b41f6",
-    "text": "This is text in the new plugin. You can *double-click* to edit it too."
-  }
-]
+    {
+      "type": "paragraph",
+      "id": "41b603d2105a44a9",
+      "text": "The JsonBrowser Plugin exposes access to external JSON sources and allows them to be filtered and displayed in wiki.",
+      "alias": "7fc8f08a30187a90"
     },
-    "date": 1541184679000,
-    "certificate": "from mkplugin.sh"
-  }
-]
+    {
+      "type": "paragraph",
+      "id": "74e922cb6f48afa8",
+      "text": "The plugin is experimental.  It only understands JSON arrays of objects."
+    },
+    {
+      "type": "markdown",
+      "id": "313b4ea2eab2cb0e",
+      "text": "Say **SOURCE** _URL_ to specify the JSON document.  The source should be specified in its own item."
+    },
+    {
+      "type": "markdown",
+      "id": "9c6b9a7a6742c7af",
+      "text": "Say **FILTER** _key = value_ to limit display to items that match the given criteria.  To filter on more than one key, enter each on its own line.  Objects must match all the specified filters.\n"
+    },
+    {
+      "type": "markdown",
+      "id": "de8b5e77b7560bcb",
+      "text": "By default, filtered results will be displayed as JSON.    Results can be narrowed with **SELECT** and can also be displayed with less punctuation with **PRETTY-SELECT**."
+    },
+    {
+      "type": "markdown",
+      "id": "eb21d36f3dd022f5",
+      "text": "Say **SELECT** _key [key ..._ to display only the specified keys for each item in the JSON array.  Results will be displayed as JSON."
+    },
+    {
+      "type": "markdown",
+      "id": "a70ae96032cf5b89",
+      "text": "Say **PRETTY-SELECT** _key [key ...]_ to display only the specified values.  Each _key_ will be rendered on a single line.\n"
+    },
+    {
+      "type": "markdown",
+      "id": "8af8da78fc25cf22",
+      "text": "# Example\n"
+    },
+    {
+      "type": "markdown",
+      "id": "1772f27986be3012",
+      "text": "The plugin source code is hosted at github [https://github.com/dobbs/wiki-plugin-jsonbrowser repo]\n"
+    },
+    {
+      "type": "markdown",
+      "id": "4166d4fa6495cbc5",
+      "text": "We declare the github api for contents of a repo as our SOURCE\n"
+    },
+    {
+      "type": "jsonbrowser",
+      "id": "22f66cdf9656d937",
+      "text": "SOURCE https://api.github.com/repos/dobbs/wiki-plugin-jsonbrowser/contents",
+      "alias": "7068b09b7f0b41f6"
+    },
+    {
+      "type": "markdown",
+      "id": "f59be003219b5bea",
+      "text": "The first filter shows the files.\n"
+    },
+    {
+      "type": "jsonbrowser",
+      "id": "afe51f1ef709878f",
+      "text": "FILTER type = file\nPRETTY-SELECT name"
+    },
+    {
+      "type": "markdown",
+      "id": "6b0ead8a2771ee49",
+      "text": "The second filter shows the directories."
+    },
+    {
+      "type": "jsonbrowser",
+      "id": "a66653db4bb4085c",
+      "text": "FILTER type = dir\nPRETTY-SELECT name"
+    },
+    {
+      "type": "markdown",
+      "id": "e9610dbb6983e760",
+      "text": "# Usage\n"
+    },
+    {
+      "type": "markdown",
+      "id": "7b608fddd3d0eeb4",
+      "text": "The JSON understood by this plugin is quite limited.  The wiki author wishing to use this tool is advised to transform JSON of interest into a flat array of objects and upload the results using the assets plugin.  Then use the url to the asset as a **SOURCE** in this plugin.\n"
+    },
+    {
+      "type": "markdown",
+      "id": "4db692bd25f3dec0",
+      "text": "[[About Assets Plugin]]"
+    }
+  ],
+  "journal": [
+    {
+      "type": "create",
+      "item": {
+        "title": "About JsonBrowser Plugin",
+        "story": [
+          {
+            "type": "paragraph",
+            "id": "7fc8f08a30187a90",
+            "text": "Here we describe the purpose of the plugin and include a sample."
+          },
+          {
+            "type": "jsonbrowser",
+            "id": "7068b09b7f0b41f6",
+            "text": "This is text in the new plugin. You can *double-click* to edit it too."
+          }
+        ]
+      },
+      "date": 1541184679000,
+      "certificate": "from mkplugin.sh"
+    },
+    {
+      "type": "add",
+      "item": {
+        "type": "paragraph",
+        "id": "41b603d2105a44a9",
+        "text": "The JsonBrowser Plugin exposes access to external JSON sources and allows them to be filtered and displayed in wiki.",
+        "alias": "7fc8f08a30187a90"
+      },
+      "id": "41b603d2105a44a9",
+      "date": 1541357173458
+    },
+    {
+      "type": "add",
+      "item": {
+        "type": "markdown",
+        "id": "313b4ea2eab2cb0e",
+        "text": "Say **SOURCE** _URL_ to specify the JSON document.  The source should be specified in its own item."
+      },
+      "after": "7fc8f08a30187a90",
+      "id": "313b4ea2eab2cb0e",
+      "date": 1541357177751
+    },
+    {
+      "type": "add",
+      "item": {
+        "type": "markdown",
+        "id": "9c6b9a7a6742c7af",
+        "text": "Say **FILTER** _key = value_ to limit display to items that match the given criteria.  To filter on more than one key, enter each on its own line.  Objects must match all the specified filters.\n"
+      },
+      "after": "313b4ea2eab2cb0e",
+      "id": "9c6b9a7a6742c7af",
+      "date": 1541357183384
+    },
+    {
+      "type": "add",
+      "item": {
+        "type": "markdown",
+        "id": "de8b5e77b7560bcb",
+        "text": "By default, filtered results will be displayed as JSON.    Results can be narrowed with **SELECT** and can also be displayed with less punctuation with **PRETTY-SELECT**."
+      },
+      "after": "9c6b9a7a6742c7af",
+      "id": "de8b5e77b7560bcb",
+      "date": 1541357193202
+    },
+    {
+      "type": "add",
+      "item": {
+        "type": "markdown",
+        "id": "eb21d36f3dd022f5",
+        "text": "Say **SELECT** _key [key ..._ to display only the specified keys for each item in the JSON array.  Results will be displayed as JSON."
+      },
+      "after": "de8b5e77b7560bcb",
+      "id": "eb21d36f3dd022f5",
+      "date": 1541357202494
+    },
+    {
+      "type": "add",
+      "item": {
+        "type": "markdown",
+        "id": "a70ae96032cf5b89",
+        "text": "Say **PRETTY-SELECT** _key [key ...]_ to display only the specified values.  Each _key_ will be rendered on a single line."
+      },
+      "after": "eb21d36f3dd022f5",
+      "id": "a70ae96032cf5b89",
+      "date": 1541357206613
+    },
+    {
+      "type": "add",
+      "item": {
+        "type": "paragraph",
+        "id": "74e922cb6f48afa8",
+        "text": "The plugin is experimental.  It only understands JSON arrays of objects."
+      },
+      "after": "7fc8f08a30187a90",
+      "id": "74e922cb6f48afa8",
+      "date": 1541357214511
+    },
+    {
+      "type": "add",
+      "item": {
+        "type": "jsonbrowser",
+        "id": "22f66cdf9656d937",
+        "text": "SOURCE https://api.github.com/repos/dobbs/wiki-plugin-jsonbrowser/contents",
+        "alias": "7068b09b7f0b41f6"
+      },
+      "after": "a70ae96032cf5b89",
+      "id": "22f66cdf9656d937",
+      "date": 1541357225534
+    },
+    {
+      "type": "add",
+      "item": {
+        "type": "jsonbrowser",
+        "id": "afe51f1ef709878f",
+        "text": "FILTER type = file\nPRETTY-SELECT name"
+      },
+      "after": "7068b09b7f0b41f6",
+      "id": "afe51f1ef709878f",
+      "date": 1541357230344
+    },
+    {
+      "type": "add",
+      "item": {
+        "type": "jsonbrowser",
+        "id": "a66653db4bb4085c",
+        "text": "FILTER type = dir\nPRETTY-SELECT name"
+      },
+      "after": "afe51f1ef709878f",
+      "id": "a66653db4bb4085c",
+      "date": 1541357234304
+    },
+    {
+      "type": "remove",
+      "id": "7fc8f08a30187a90",
+      "date": 1541357239985
+    },
+    {
+      "type": "remove",
+      "id": "7068b09b7f0b41f6",
+      "date": 1541357243230
+    },
+    {
+      "type": "edit",
+      "id": "a70ae96032cf5b89",
+      "item": {
+        "type": "markdown",
+        "id": "a70ae96032cf5b89",
+        "text": "Say **PRETTY-SELECT** _key [key ...]_ to display only the specified values.  Each _key_ will be rendered on a single line.\n"
+      },
+      "date": 1541357261258
+    },
+    {
+      "type": "add",
+      "id": "8af8da78fc25cf22",
+      "item": {
+        "type": "markdown",
+        "id": "8af8da78fc25cf22",
+        "text": "# Example\n"
+      },
+      "after": "a70ae96032cf5b89",
+      "date": 1541357345748
+    },
+    {
+      "type": "add",
+      "id": "1772f27986be3012",
+      "item": {
+        "type": "markdown",
+        "id": "1772f27986be3012",
+        "text": "The plugin source code is hosted at github [https://github.com/dobbs/wiki-plugin-jsonbrowser repo]\n"
+      },
+      "after": "8af8da78fc25cf22",
+      "date": 1541357393450
+    },
+    {
+      "type": "add",
+      "id": "4166d4fa6495cbc5",
+      "item": {
+        "type": "markdown",
+        "id": "4166d4fa6495cbc5",
+        "text": "We declare the github api for contents of a repo as our SOURCE"
+      },
+      "after": "1772f27986be3012",
+      "date": 1541357484210
+    },
+    {
+      "type": "edit",
+      "id": "4166d4fa6495cbc5",
+      "item": {
+        "type": "markdown",
+        "id": "4166d4fa6495cbc5",
+        "text": "We declare the github api for contents of a repo as our SOURCE\n"
+      },
+      "date": 1541357491431
+    },
+    {
+      "type": "add",
+      "id": "f59be003219b5bea",
+      "item": {
+        "type": "markdown",
+        "id": "f59be003219b5bea",
+        "text": "Our first filter shows the files.\n"
+      },
+      "after": "4166d4fa6495cbc5",
+      "date": 1541357502715
+    },
+    {
+      "type": "add",
+      "id": "6b0ead8a2771ee49",
+      "item": {
+        "type": "markdown",
+        "id": "6b0ead8a2771ee49",
+        "text": "The second filter shows the directories."
+      },
+      "after": "f59be003219b5bea",
+      "date": 1541357515943
+    },
+    {
+      "type": "edit",
+      "id": "f59be003219b5bea",
+      "item": {
+        "type": "markdown",
+        "id": "f59be003219b5bea",
+        "text": "The first filter shows the files.\n"
+      },
+      "date": 1541357519777
+    },
+    {
+      "type": "move",
+      "order": [
+        "41b603d2105a44a9",
+        "74e922cb6f48afa8",
+        "313b4ea2eab2cb0e",
+        "9c6b9a7a6742c7af",
+        "de8b5e77b7560bcb",
+        "eb21d36f3dd022f5",
+        "a70ae96032cf5b89",
+        "8af8da78fc25cf22",
+        "1772f27986be3012",
+        "4166d4fa6495cbc5",
+        "6b0ead8a2771ee49",
+        "22f66cdf9656d937",
+        "f59be003219b5bea",
+        "afe51f1ef709878f",
+        "a66653db4bb4085c"
+      ],
+      "id": "f59be003219b5bea",
+      "date": 1541357524288
+    },
+    {
+      "type": "move",
+      "order": [
+        "41b603d2105a44a9",
+        "74e922cb6f48afa8",
+        "313b4ea2eab2cb0e",
+        "9c6b9a7a6742c7af",
+        "de8b5e77b7560bcb",
+        "eb21d36f3dd022f5",
+        "a70ae96032cf5b89",
+        "8af8da78fc25cf22",
+        "1772f27986be3012",
+        "4166d4fa6495cbc5",
+        "22f66cdf9656d937",
+        "f59be003219b5bea",
+        "afe51f1ef709878f",
+        "6b0ead8a2771ee49",
+        "a66653db4bb4085c"
+      ],
+      "id": "6b0ead8a2771ee49",
+      "date": 1541357526938
+    },
+    {
+      "item": {
+        "type": "factory",
+        "id": "e9610dbb6983e760"
+      },
+      "id": "e9610dbb6983e760",
+      "type": "add",
+      "after": "a66653db4bb4085c",
+      "date": 1541357860757
+    },
+    {
+      "type": "edit",
+      "id": "e9610dbb6983e760",
+      "item": {
+        "type": "markdown",
+        "id": "e9610dbb6983e760",
+        "text": "# Usage\n"
+      },
+      "date": 1541357871716
+    },
+    {
+      "type": "add",
+      "id": "7b608fddd3d0eeb4",
+      "item": {
+        "type": "markdown",
+        "id": "7b608fddd3d0eeb4",
+        "text": "The JSON understood by this plugin is quite limited.  The wiki author wishing to use this tool is advised to transform JSON of interest into a flat array of objects and upload the results using the assets plugin.  Then use the url to the asset as a **SOURCE** in this plugin.\n"
+      },
+      "after": "e9610dbb6983e760",
+      "date": 1541358018070
+    },
+    {
+      "type": "add",
+      "id": "4db692bd25f3dec0",
+      "item": {
+        "type": "markdown",
+        "id": "4db692bd25f3dec0",
+        "text": "[[About Assets Plugin]]"
+      },
+      "after": "7b608fddd3d0eeb4",
+      "date": 1541358018938
+    }
+  ]
 }
