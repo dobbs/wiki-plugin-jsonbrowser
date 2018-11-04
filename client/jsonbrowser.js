@@ -19,6 +19,8 @@
           return obj[key] === value
         })
         break
+      case 'PRETTY-SELECT':
+        obj.pretty = true
       case 'SELECT':
         const keys = rest
         obj.selectFn = items => items.map(_.partial(_.pick, _, ...keys))
@@ -46,17 +48,35 @@
     const el = $item.get(0)
     let obj = parse(item)
 
-    $item.append(`
-      <p style="background-color:#eee;padding:15px;margin-bottom:0;">
-        ${expand(item.text)}
-      </p>
-      <pre style="background-color:#eee;margin-top: 0;padding:0 15px; overflow: auto;"></pre>`)
+    $item.attr('style', 'background-color:#eee;padding:15px;margin:15px 0')
+    const plainRender = () =>
+          $item.append(`
+        <p style="margin:0;">
+          ${expand(item.text)}
+        </p>
+        <pre style="margin:0;overflow:auto;"></pre>`)
 
-    const insertJson = _.once(json => $item.find('pre')
+    const plainInsertJson = _.once(json => $item.find('pre')
                               .html(expand(JSON.stringify(json, null, 2))))
 
-    if (!obj.selectFn)
-      obj.selectFn = xs => xs
+    const prettyRender = () => $item
+
+    const prettyInsertJson = _.once(json => {
+      json.forEach(obj => {
+        // this code assumes keys are ordered
+        Object.keys(obj)
+          .forEach(key => $item.append(
+            `<p style="margin:0;">${obj[key]}</p>`))
+      })
+    })
+
+    let render, insertJson
+    if (obj.pretty)
+      [render, insertJson] = [prettyRender, prettyInsertJson]
+    else
+      [render, insertJson] = [plainRender, plainInsertJson]
+
+    render()
 
     if (obj.source) {
       $item.addClass('jsonsource')
@@ -64,12 +84,14 @@
         if (obj.json)
           return obj.json
         obj.json = await loadJson(obj.source)
-        $item.trigger('loaded')
         return obj.json
       }
       el.jsonsource() // start loading
       return $item
     }
+
+    if (!obj.selectFn)
+      obj.selectFn = xs => xs
 
     if (obj.filters) {
       $item.addClass('jsonfilter')
@@ -86,6 +108,7 @@
         }
       }
 
+      // TODO: allow SELECT without FILTER
       el.jsonsource().then(json => insertJson(obj.selectFn(json)))
     }
 
